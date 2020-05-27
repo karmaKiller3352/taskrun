@@ -1,0 +1,151 @@
+//@import '~bootstrap/scss/bootstrap';
+@import './themes/bootstrap.min.css';
+@import './themes/variables';
+
+* {
+  box-sizing: border-box !important;
+}
+.project-form {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 20px;
+}
+.nav-link.active {
+  background-image: linear-gradient(#101112, #17191b 40%, #1b1e20);
+  background-repeat: no-repeat;
+  filter: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+.assecc {
+  white-space: pre-line;
+}
+.card {
+  border-radius: 0;
+  position: relative;
+  .close {
+    color: #5bc0de;
+    position: absolute;
+    right: 20px;
+    top: calc(50% - 14px);
+    :hover {
+      color: #5bc0de;
+    }
+  }
+  h4 {
+    margin-top: 20px;
+    color: #fff;
+  }
+  .link {
+    text-decoration: underline;
+  }
+  .card-header {
+    .right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+}
+form {
+  position: relative;
+  .close {
+    color: #5bc0de;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    :hover {
+      color: #5bc0de;
+    }
+  }
+}
+
+.tasks-page {
+  .status {
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    &:hover {
+      background-color: #32383e !important;
+    }
+  }
+  header {
+    background-color: #1c1e22 !important;
+    border-bottom: 30px solid #272b30;
+    padding: 8px 0;
+    color: #fff;
+    button {
+      float: right;
+      margin-right: 20px;
+    }
+    h1 {
+      border-right: 1px solid rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      margin: 0;
+      color: #fff;
+      font-weight: bold;
+      font-size: 25px;
+    }
+    .row {
+      align-items: center;
+    }
+    h2 {
+      padding: 10px 20px;
+      margin: 0;
+      color: #fff;
+      font-weight: bold;
+      font-size: 23px;
+    }
+  }
+  .tasks-list {
+    position: relative;
+    height: 80vh;
+    background-color: #1c1e22 !important;
+    padding: 10px 40px;
+    margin-left: -31px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    border-top: 0;
+  }
+  .list-group-item {
+    cursor: pointer;
+    &.active {
+      position: relative;
+      z-index: 2;
+      background-color: #1c1e22 !important;
+      border-right: 0;
+    }
+  }
+  .list-group {
+    border-radius: 0;
+  }
+  table {
+    tr {
+      cursor: pointer;
+    }
+    thead {
+      background-color: #1c1e22;
+      color: #fff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+  .finished {
+    text-decoration: line-through;
+    color: #7a8288 !important;
+    :hover {
+      color: #7a8288;
+    }
+    a {
+      color: #7a8288 !important;
+    }
+    .badge {
+      color: #fff !important;
+    }
+  }
+}
+.spinner-grow {
+  display: block;
+  margin: 20px auto;
+}
+
+.modal-backdrop.show {
+  opacity: 0.9;
+}

@@ -1,25 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import './App.scss';
+import ProjectsPage from './pages/ProjectsPage';
+import Home from './pages/Home';
+import NoMatchPage from './pages/NoMatchPage';
+import Navbar from './components/Navbar';
+import { Container } from 'react-bootstrap';
+import ProjectPage from './pages/ProjectPage';
+import TasksPage from './pages/TasksPage';
+import AppModal from './components/AppModal';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Container className='pt-3'>
+        <Switch>
+          <Route exact path={'/'} component={Home} />
+          <Route path={'/projects/:id'} component={ProjectPage} />
+          <Route path={'/projects/'} component={ProjectsPage} />
+          <Route path={'/tasks/'} component={TasksPage} />
+
+          <Route component={NoMatchPage} />
+        </Switch>
+      </Container>
+      <AppModal />
+    </BrowserRouter>
   );
 }
 
