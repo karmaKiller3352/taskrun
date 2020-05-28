@@ -3,7 +3,6 @@ import {
   FETCH_PROJECTS,
   REMOVE_PROJECT,
   SET_PROJECT,
-  CHANGE_PROJECT,
 } from './types';
 
 const initialState = {
@@ -13,8 +12,6 @@ const initialState = {
 
 const projectsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_PROJECT:
-      return { ...state, openProject: { ...action.payload } };
     case SET_PROJECT:
       return { ...state, openProject: { ...action.payload } };
     case ADD_PROJECT:

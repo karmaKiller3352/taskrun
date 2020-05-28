@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
-import { msToTime } from '../utils/time';
+import Timer from './Timer';
 
 const mapDispatchtoProps = {};
 function mapStatetoProps(state) {
-  console.log(state.tasks.tasks.length);
   return {
     loading: state.app.loading,
     tasks: state.tasks.tasks.sort((a, b) => b.created - a.created),
@@ -15,8 +14,6 @@ function mapStatetoProps(state) {
 }
 
 function TasksList({ loading, tasks, filter }) {
-  //.filter(({ STATUS }) => STATUS === this.filter),
-
   if (loading) {
     return <Loader />;
   }
@@ -66,7 +63,9 @@ function TasksList({ loading, tasks, filter }) {
             task.STATUS === 'FINISHED' ? 'finished' : ''
           }`}
         >
-          <th scope='row'>{task.TITLE}</th>
+          <th scope='row'>
+            <Link to={`/tasks/${task.objectId}`}>{task.TITLE}</Link>
+          </th>
           <td>
             {task.PROJECT ? (
               <Link to={`/projects/${task.PROJECT.objectId}`}>
@@ -77,7 +76,14 @@ function TasksList({ loading, tasks, filter }) {
             )}
           </td>
 
-          <td>{msToTime(task.SPENT_TIME)}</td>
+          <td>
+            <Timer
+              status={task.STATUS}
+              spentTime={task.SPENT_TIME}
+              start={task.START_TIME}
+              getTime={false}
+            />
+          </td>
           <td>
             <span className={`badge badge-${status[task.STATUS].class}`}>
               {status[task.STATUS].text}

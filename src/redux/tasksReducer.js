@@ -1,5 +1,4 @@
 import {
-  CHANGE_TASK,
   SET_TASK,
   ADD_TASK,
   REMOVE_TASK,
@@ -22,8 +21,7 @@ const tasksReducer = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_TASK_FILTER:
       return { ...state, currentFilter: action.payload };
-    case CHANGE_TASK:
-      return { ...state, openTask: { ...action.payload } };
+
     case SET_TASK:
       return { ...state, openTask: { ...action.payload } };
     case ADD_TASK:

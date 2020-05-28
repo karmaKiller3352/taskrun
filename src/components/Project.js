@@ -10,6 +10,7 @@ import {
 } from '../redux/actions';
 import Loader from '../components/Loader';
 import { Card, Button } from 'react-bootstrap';
+import { msToTime } from '../utils/time';
 function createMarkup(html) {
   return { __html: html };
 }
@@ -102,7 +103,7 @@ function Project({
             <Card.Title>
               <h4>Spent time:</h4>
             </Card.Title>
-            <div>{project.TIMESPENT}</div>
+            <div>{msToTime(project.TIMESPENT)}</div>
           </>
         </Card.Body>
       </Card>

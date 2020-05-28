@@ -10,11 +10,13 @@ import {
   REQUEST_PROJECT,
   SET_PROJECT,
   CHANGE_PROJECT_REQUEST,
-  CHANGE_PROJECT,
   FETCH_TASKS,
   REQUEST_TASKS,
   ADD_TASK_REQUEST,
   ADD_TASK,
+  REQUEST_TASK,
+  SET_TASK,
+  CHANGE_TASK_REQUEST,
 } from './types';
 
 import {
@@ -25,6 +27,8 @@ import {
   fetchProject,
   fetchTasks,
   addTask,
+  fetchTask,
+  changeTask,
 } from './api';
 
 export function* sagaWatcher() {
@@ -40,19 +44,44 @@ export function* sagaWatcher() {
 
   // watch task's event
   yield takeEvery(REQUEST_TASKS, sagaFetchTasks);
-  yield takeEvery(ADD_TASK_REQUEST, sagaAddTasks);
+  yield takeEvery(REQUEST_TASK, sagaFetchTask);
+  yield takeEvery(ADD_TASK_REQUEST, sagaAddTask);
+  yield takeEvery(CHANGE_TASK_REQUEST, sagaChangeTask);
 }
 
-function* sagaAddTasks(action) {
-  //console.log(action.payload);
+function* sagaChangeTask(action) {
+  try {
+    yield put(showLoader());
+    yield put(hideEditForm());
+    const payload = yield call(changeTask, action.payload);
+    yield put({ type: SET_TASK, payload });
+    yield put(hideLoader());
+  } catch (error) {
+    console.log(error);
+    yield put(hideLoader());
+  }
+}
 
+function* sagaFetchTask(action) {
+  try {
+    yield put(showLoader());
+    const payload = yield call(fetchTask, action.payload);
+    yield put({ type: SET_TASK, payload });
+    yield put(hideLoader());
+  } catch (error) {
+    console.log(error);
+    yield put(hideLoader());
+  }
+}
+
+function* sagaAddTask(action) {
   try {
     const payload = yield call(addTask, action.payload);
     yield put({ type: ADD_TASK, payload });
     yield put(hideModal());
   } catch (error) {
     console.log(error);
-    hideModal();
+    yield put(hideModal());
   }
 }
 
@@ -61,7 +90,7 @@ function* sagaChangeProject(action) {
     yield put(showLoader());
     yield put(hideEditForm());
     const payload = yield call(changeProject, action.payload);
-    yield put({ type: CHANGE_PROJECT, payload });
+    yield put({ type: SET_PROJECT, payload });
     yield put(hideLoader());
   } catch (error) {
     console.log(error);

@@ -18,6 +18,7 @@ import {
   CHANGE_TASK_FILTER,
   HIDE_MODAL,
   SHOW_MODAL,
+  SET_TASK,
 } from './types';
 
 // REQUEST ACTIONS
@@ -85,7 +86,7 @@ export function addTaskRequest(task) {
   };
 }
 
-export function changeTasktRequest(task) {
+export function changeTaskRequest(task) {
   return (dispatch) => {
     dispatch({
       type: CHANGE_TASK_REQUEST,
@@ -107,6 +108,15 @@ export function fetchTask(id) {
     dispatch({
       type: REQUEST_TASK,
       payload: id,
+    });
+  };
+}
+
+export function setTask(task) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_TASK,
+      payload: task,
     });
   };
 }

@@ -37,6 +37,22 @@ export async function addProject(project) {
 }
 
 // tasks requests
+export async function changeTask(task) {
+  const { data } = await axios.put(TASKS_API.slice(0, -1), task);
+  if (task.PROJECT) {
+    await axios.put(PROJECTS_API.slice(0, -1), {
+      ...task.PROJECT,
+      TIMESPENT: Date.now() - task.PROJECT.TIMESPENT + data.SPENT_TIME,
+    });
+  }
+
+  return data;
+}
+
+export async function fetchTask(id) {
+  const { data } = await axios.get(TASKS_API + id);
+  return data;
+}
 
 export async function fetchTasks() {
   const { data } = await axios.get(

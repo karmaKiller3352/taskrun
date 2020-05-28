@@ -149,3 +149,45 @@ form {
 .modal-backdrop.show {
   opacity: 0.9;
 }
+
+.task {
+  header {
+    .task-btn {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+    margin-top: 20px;
+    background-color: #1c1e22 !important;
+    border-bottom: 30px solid #272b30;
+    padding: 8px 0;
+    color: #fff;
+    .text-group {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      .badge {
+        margin-left: 15px;
+        font-size: 20px;
+        padding: 10px;
+      }
+    }
+    .task-info {
+      color: #aaa;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      justify-content: center;
+    }
+    .task-time {
+      height: 100%;
+      display: flex;
+      font-size: 45px;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
