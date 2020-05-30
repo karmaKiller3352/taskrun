@@ -11,12 +11,23 @@ function Timer({ status, spentTime, start, getTime }) {
   const [time, setTime] = useState(startTime);
 
   const timerId = useRef(false);
+
   useEffect(() => {
-    return () => clearInterval(timerId.current);
+    return () => {
+      clearTimeout(timerId.current);
+    };
   }, []);
   if (getTime) getTime(time);
 
   switch (status) {
+    case 'FINISHED': {
+      clearTimeout(timerId.current);
+      return msToTime(spentTime);
+    }
+    case 'PAUSED': {
+      clearTimeout(timerId.current);
+      return msToTime(spentTime);
+    }
     case 'IN_WORK': {
       timerId.current = setTimeout(() => {
         setTime((prevTime) => prevTime + 1000);
@@ -24,7 +35,7 @@ function Timer({ status, spentTime, start, getTime }) {
       return msToTime(time);
     }
     default: {
-      clearInterval(timerId.current);
+      clearTimeout(timerId.current);
       return msToTime(time);
     }
   }

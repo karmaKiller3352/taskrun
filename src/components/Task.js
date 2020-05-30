@@ -48,7 +48,9 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
   const { id } = useParams();
   useEffect(() => {
     // load task from database
+
     fetchTask(id);
+
     // eslint-disable-next-line
   }, []);
 
@@ -64,7 +66,6 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
   const hadleFinish = (e) => {
     changeTaskRequest({ ...task, STATUS: 'FINISHED', SPENT_TIME: localtime });
   };
-  console.log(task);
   return task.TITLE ? (
     <>
       <div className='task'>
