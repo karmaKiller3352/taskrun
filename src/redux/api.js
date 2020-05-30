@@ -40,10 +40,11 @@ export async function addProject(project) {
 export async function changeTask(task) {
   const { data } = await axios.put(TASKS_API.slice(0, -1), task);
   if (task.PROJECT) {
-    await axios.put(PROJECTS_API.slice(0, -1), {
+    const project = await axios.put(PROJECTS_API.slice(0, -1), {
       ...task.PROJECT,
       TIMESPENT: Date.now() - task.PROJECT.TIMESPENT + data.SPENT_TIME,
     });
+    return { ...data, PROJECT: project.data };
   }
 
   return data;

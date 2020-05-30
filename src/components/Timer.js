@@ -30,6 +30,7 @@ function Timer({ status, spentTime, start, getTime }) {
     }
     case 'IN_WORK': {
       timerId.current = setTimeout(() => {
+        console.log(timerId.current);
         setTime((prevTime) => prevTime + 1000);
       }, 1000);
       return msToTime(time);
