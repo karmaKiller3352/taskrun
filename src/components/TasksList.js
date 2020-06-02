@@ -67,9 +67,9 @@ function TasksList({ loading, tasks, filter }) {
             <Link to={`/tasks/${task.objectId}`}>{task.TITLE}</Link>
           </th>
           <td>
-            {task.PROJECT ? (
-              <Link to={`/projects/${task.PROJECT.objectId}`}>
-                {task.PROJECT.NAME}
+            {task.PROJECT_ID ? (
+              <Link to={`/projects/${task.PROJECT_ID}`}>
+                {task.PROJECT_NAME}
               </Link>
             ) : (
               '--------------'

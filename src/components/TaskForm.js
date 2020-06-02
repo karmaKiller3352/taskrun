@@ -55,7 +55,11 @@ function TaskForm({ projects, fetchProjects, addTaskRequest }) {
   };
   const submitFormHandler = (e) => {
     e.preventDefault();
-    addTaskRequest(currentFields);
+    addTaskRequest({
+      ...currentFields,
+      PROJECT_ID: currentFields.PROJECT ? currentFields.PROJECT.objectId : null,
+      PROJECT_NAME: currentFields.PROJECT ? currentFields.PROJECT.NAME : null,
+    });
     formref.current.reset();
   };
 

@@ -72,12 +72,12 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
         <Row>
           <Col md={4}>
             <h1>{task.TITLE}</h1>
-            {task.PROJECT ? (
+            {task.PROJECT_ID ? (
               <Link
                 className='badge badge-pill badge-primary'
-                to={`/projects/${task.PROJECT.objectId}`}
+                to={`/projects/${task.PROJECT_ID}`}
               >
-                Project: {task.PROJECT.NAME}
+                Project: {task.PROJECT_NAME}
               </Link>
             ) : null}
           </Col>

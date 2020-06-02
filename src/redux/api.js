@@ -7,8 +7,6 @@ const PROJECTS_API =
 const TASKS_API =
   'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/data/tasks/';
 
-const PROJECT_RELATION_API = '?loadRelations=PROJECT';
-
 // projects request
 export async function changeProject(project) {
   const { data } = await axios.put(PROJECTS_API.slice(0, -1), project);
@@ -39,14 +37,6 @@ export async function addProject(project) {
 // tasks requests
 export async function changeTask(task) {
   const { data } = await axios.put(TASKS_API.slice(0, -1), task);
-  if (task.PROJECT) {
-    const project = await axios.put(PROJECTS_API.slice(0, -1), {
-      ...task.PROJECT,
-      TIMESPENT: Date.now() - task.PROJECT.TIMESPENT + data.SPENT_TIME,
-    });
-    return { ...data, PROJECT: project.data };
-  }
-
   return data;
 }
 
@@ -56,24 +46,18 @@ export async function fetchTask(id) {
 }
 
 export async function fetchTasks() {
-  const { data } = await axios.get(
-    TASKS_API.slice(0, -1) + PROJECT_RELATION_API + '&pageSize=100'
-  );
+  const { data } = await axios.get(TASKS_API.slice(0, -1) + '?pageSize=100');
   return data;
 }
 
 export async function addTask({ PROJECT, ...task }) {
   const { data } = await axios.post(TASKS_API.slice(0, -1), task);
+  return data;
+}
 
-  const tasktId = data.objectId;
-  const column = 'PROJECT';
-  const urs = TASKS_API + `${tasktId}/${column}`;
-  if (PROJECT) {
-    await axios.post(urs, [PROJECT.objectId]);
-  }
-
-  return {
-    ...data,
-    PROJECT,
-  };
+export async function getTasksByProp(prop, value) {
+  const { data } = await axios.get(
+    TASKS_API.slice(0, -1) + `?where=${prop}%3D%27${value}%27`
+  );
+  return data;
 }

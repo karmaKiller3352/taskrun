@@ -29,6 +29,7 @@ import {
   addTask,
   fetchTask,
   changeTask,
+  getTasksByProp,
 } from './api';
 
 export function* sagaWatcher() {
@@ -102,7 +103,18 @@ function* sagaFetchProject(action) {
   try {
     yield put(showLoader());
     const payload = yield call(fetchProject, action.payload);
-    yield put({ type: SET_PROJECT, payload });
+
+    if (payload.objectId) {
+      const tasks = yield call(getTasksByProp, 'PROJECT_ID', payload.objectId);
+      const TIMESPENT = tasks.reduce(
+        (acc, { SPENT_TIME }) => acc + SPENT_TIME,
+        0
+      );
+      yield put({ type: SET_PROJECT, payload: { ...payload, TIMESPENT } });
+    } else {
+      yield put({ type: SET_PROJECT, payload });
+    }
+
     yield put(hideLoader());
   } catch (error) {
     console.log(error);
