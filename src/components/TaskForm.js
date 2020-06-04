@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-// import CKEditor from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import BalloonEditor from '@ckeditor/ckeditor5-build-balloon/';
 import { fetchProjects, addTaskRequest } from '../redux/actions';
 
 const mapStatetoProps = (state) => ({
@@ -89,7 +89,7 @@ function TaskForm({ projects, fetchProjects, addTaskRequest }) {
 
       <Form.Group controlId='projectDesc'>
         <Form.Label>Task description</Form.Label>
-        {/* <CKEditor
+        {<CKEditor
           onChange={(e, editor) => {
             const data = editor.getData();
             setField((prev) => ({
@@ -99,8 +99,8 @@ function TaskForm({ projects, fetchProjects, addTaskRequest }) {
               },
             }));
           }}
-          editor={ClassicEditor}
-        ></CKEditor> */}
+          editor={BalloonEditor}
+        ></CKEditor>}
       </Form.Group>
       <Button variant='primary' className='btn-lg' type='submit'>
         Add

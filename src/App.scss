@@ -23,6 +23,25 @@ body {
 .assecc {
   white-space: pre-line;
 }
+.modal-body {
+
+  .ck-content {
+    background-color: #fff;
+    * {
+      color: #52575C;
+    }
+    a {
+      text-decoration: underline;
+      color: #5bc0de;
+    }
+  }
+}
+.ck-body-wrapper {
+  z-index: 2000!important;
+}
+.ck-balloon-panel {
+  z-index: 2000!important;
+}
 .card {
   border-radius: 0;
   position: relative;
@@ -156,8 +175,38 @@ form {
 }
 
 .task {
+  .ck-content {
+    border: none!important;
+    outline: none!important;
+    border-radius: 0!important;
+    box-shadow: none!important;
+    border-bottom: 1px solid #272b30!important;
+    &:focus {
+      border-bottom: 2px solid #62c462!important;
+    }
+  }
   .task-comments {
+    .image-send {
+      border: none;
+      background-color: transparent;
+      background-image: url($rightArrow);
+      display: block;
+      margin: 0 auto;
+      width: 20px;
+      height: 20px;
+      background-size: contain;
+      background-position: top center;
+      background-repeat: no-repeat;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    margin-bottom: 140px;
     .comments-body {
+      a {
+        color: #5bc0de;
+        text-decoration: underline;
+      }
       padding: 20px;
       color: #f2f2f2;
       background-color: #1c1e22;

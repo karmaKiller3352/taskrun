@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchTask, changeTaskRequest } from '../redux/actions';
 import Loader from '../components/Loader';
-import Editor from '../components/editor/src/ckeditor';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
 import { Row, Col, Button, Accordion, Card } from 'react-bootstrap';
 import Timer from './Timer';
 import { createMarkup, msToTime } from '../utils';
@@ -46,13 +47,11 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
   const getSpentTime = (currenTime) => {
     localtime = currenTime;
   };
-  const editor = useRef('');
+  const [comment, handleComment] = useState('');
   const { id } = useParams();
   useEffect(() => {
     // load task from database
-
     fetchTask(id);
-
     // eslint-disable-next-line
   }, []);
 
@@ -68,7 +67,7 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
   const hadleFinish = (e) => {
     changeTaskRequest({ ...task, STATUS: 'FINISHED', SPENT_TIME: localtime });
   };
-  // console.log(task);
+  console.log(comment);
   return task.TITLE ? (
     <>
       <div className='task'>
@@ -258,7 +257,22 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
                 <div className='comments-intro'>
                   <div className='image'></div>
                   <span>it's time to start commenting</span>
-                  <div ref={editor}></div>
+                  <Row>
+                    <Col md={11}>
+                      <CKEditor
+                        config={{ placeholder: "Send comment" }}
+                        data={comment}
+                        onChange={(e, editor) => {
+                          const data = editor.getData()
+                          handleComment(data)
+                        }}
+                        editor={BalloonEditor}></CKEditor>
+                    </Col>
+                    <Col md={1}>
+                      <button className="image-send"></button>
+                    </Col>
+                  </Row>
+
                 </div>
               </div>
             </div>
