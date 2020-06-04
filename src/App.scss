@@ -1,7 +1,12 @@
 //@import '~bootstrap/scss/bootstrap';
 @import './themes/bootstrap.min.css';
 @import './themes/variables';
+@import 'images.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
 * {
   box-sizing: border-box !important;
 }
@@ -151,6 +156,85 @@ form {
 }
 
 .task {
+  .task-comments {
+    .comments-body {
+      padding: 20px;
+      color: #f2f2f2;
+      background-color: #1c1e22;
+      min-height: 200px;
+      .comments-intro {
+        .image {
+          background-image: url($commentsImage);
+          display: block;
+          margin: 0 auto;
+          width: 100px;
+          height: 100px;
+          background-position: top center;
+          background-repeat: no-repeat;
+          padding-bottom: 20px;
+        }
+        span {
+          display: block;
+          text-align: center;
+          border-bottom: 1px solid #272b30;
+          padding-bottom: 20px;
+          margin-left: -20px;
+          margin-right: -20px;
+        }
+      }
+    }
+
+    h3 {
+      display: inline-block;
+      color: #62c462;
+      font-family: Roboto;
+      padding-bottom: 2px;
+      border-bottom: 2px solid;
+      font-size: 14px;
+    }
+  }
+  .task-body {
+    margin-bottom: 30px;
+    .task_left-column {
+      color: #f2f2f2;
+      background-color: #1c1e22;
+      padding: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.6);
+    }
+    .task_right-column {
+      position: sticky;
+      top: 20px;
+      .stages,
+      .information {
+        .row {
+          margin-bottom: 15px;
+        }
+        a {
+          display: block;
+          font-size: 14px;
+          margin-top: 5px;
+          color: #788d98;
+          font-weight: bold;
+
+          &:hover {
+            text-decoration: none;
+            color: inherit;
+          }
+        }
+        font-size: 16px;
+      }
+      .title {
+        font-weight: bold;
+        background-color: #1c1e22;
+        font-size: 25px;
+        cursor: pointer;
+      }
+      .collapse {
+        background-color: #1c1e22;
+      }
+    }
+  }
+
   header {
     .task-btn {
       height: 100%;

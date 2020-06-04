@@ -10,10 +10,7 @@ import {
 } from '../redux/actions';
 import Loader from '../components/Loader';
 import { Card, Button } from 'react-bootstrap';
-import { msToTime } from '../utils/time';
-function createMarkup(html) {
-  return { __html: html };
-}
+import { msToTime, createMarkup } from '../utils';
 
 function Project({
   project,
@@ -26,6 +23,7 @@ function Project({
   const { id } = useParams();
   useEffect(() => {
     //Load projects from Database
+
     fetchProject(id);
   }, [fetchProject, id]);
 

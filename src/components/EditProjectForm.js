@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Form, Button, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import CKEditor from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //import InlineEditor from '@ckeditor/ckeditor5-editor-inline';
 
 import { hideEditForm, changeProjectRequest } from '../redux/actions';
@@ -96,7 +96,7 @@ function EditProjectForm({
       <Form.Group controlId='projectDesc'>
         <Form.Label>Project description</Form.Label>
 
-        <CKEditor
+        {/* <CKEditor
           data={currentFields.DESCRIPTION ? currentFields.DESCRIPTION : ''}
           onChange={(e, editor) => {
             const data = editor.getData();
@@ -108,7 +108,7 @@ function EditProjectForm({
             }));
           }}
           editor={ClassicEditor}
-        ></CKEditor>
+        ></CKEditor> */}
       </Form.Group>
       <Button variant='primary' className='btn-lg' type='submit'>
         Save changes

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { msToTime } from '../utils/time';
+import { msToTime } from '../utils';
 
 function Timer({ status, spentTime, start, getTime }) {
   const startTime = spentTime

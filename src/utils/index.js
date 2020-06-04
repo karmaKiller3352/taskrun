@@ -6,3 +6,7 @@ export const msToTime = (unix_timestamp) =>
     .duration(unix_timestamp, 'ms')
     .format('HH:mm:ss')
     .padStart(8, '00:00:0');
+
+export function createMarkup(html) {
+  return { __html: html };
+}

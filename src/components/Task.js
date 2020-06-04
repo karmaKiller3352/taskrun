@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchTask, changeTaskRequest } from '../redux/actions';
 import Loader from '../components/Loader';
-import { Row, Col, Button } from 'react-bootstrap';
+import Editor from '../components/editor/src/ckeditor';
+import { Row, Col, Button, Accordion, Card } from 'react-bootstrap';
 import Timer from './Timer';
+import { createMarkup, msToTime } from '../utils';
 const status = {
   ALL: {
     class: '',
@@ -44,7 +46,7 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
   const getSpentTime = (currenTime) => {
     localtime = currenTime;
   };
-
+  const editor = useRef('');
   const { id } = useParams();
   useEffect(() => {
     // load task from database
@@ -66,11 +68,12 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
   const hadleFinish = (e) => {
     changeTaskRequest({ ...task, STATUS: 'FINISHED', SPENT_TIME: localtime });
   };
+  // console.log(task);
   return task.TITLE ? (
     <>
       <div className='task'>
         <Row>
-          <Col md={4}>
+          <Col md={6}>
             <h1>{task.TITLE}</h1>
             {task.PROJECT_ID ? (
               <Link
@@ -140,6 +143,127 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
             </Col>
           </Row>
         </header>
+        <div className='task-body'>
+          <Row>
+            <Col md={8}>
+              <div className='task_left-column'>
+                {task.DESCRIPTION && (
+                  <div
+                    className='description '
+                    dangerouslySetInnerHTML={createMarkup(task.DESCRIPTION)}
+                  ></div>
+                )}
+              </div>
+            </Col>
+            <Col md={4}>
+              <div className='task_right-column'>
+                <Accordion defaultActiveKey='0'>
+                  <Card>
+                    <Accordion.Toggle
+                      as={Card.Header}
+                      className='title'
+                      eventKey='0'
+                    >
+                      Stages
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey='0'>
+                      <Card.Body>
+                        <div className='stages'>
+                          <Row>
+                            <Col md={6}>
+                              <span className='badge badge-success'>
+                                Created
+                              </span>
+                            </Col>
+                            <Col md={6}>{task.created}</Col>
+                          </Row>
+                          <Row>
+                            <Col md={6}>
+                              <span className='badge badge-info'>Start</span>
+                            </Col>
+                            <Col md={6}>{task.START_TIME}</Col>
+                          </Row>
+                          <Row>
+                            <Col md={6}>
+                              <span className='badge badge-warning'>
+                                Duration
+                              </span>
+                            </Col>
+                            <Col md={6}>{msToTime(task.SPENT_TIME)}</Col>
+                          </Row>
+                          <Row>
+                            <Col md={6}>
+                              <span className='badge badge-danger'>
+                                Deadline
+                              </span>
+                            </Col>
+                            <Col md={6}>{task.SPENT_TIME}</Col>
+                          </Row>
+                        </div>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                  <Card>
+                    <Accordion.Toggle
+                      as={Card.Header}
+                      className='title'
+                      eventKey='1'
+                    >
+                      Information
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey='1'>
+                      <Card.Body>
+                        <div className='information'>
+                          <Row>
+                            <Col md={6}>
+                              <span className='badge badge-light'>Author</span>
+                              <Link to={`#`}>{`Сулейман Алиев`}</Link>
+                            </Col>
+                            <Col md={6}>
+                              <span className='badge badge-warning'>
+                                Responsible
+                              </span>
+                              <Link to={`#`}>{`Сулейман Алиев`}</Link>
+                            </Col>
+                          </Row>
+
+                          <Row>
+                            <Col md={12}>
+                              <span className='badge badge-secondary'>
+                                Auditors
+                              </span>
+                            </Col>
+                            <Col md={6}>
+                              <Link to={`#`}>{`Сулейман Алиев`}</Link>
+                            </Col>
+                            <Col md={6}>
+                              <Link to={`#`}>{`Сулейман Алиев`}</Link>
+                            </Col>
+                          </Row>
+                        </div>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                </Accordion>
+              </div>
+            </Col>
+          </Row>
+        </div>
+
+        <Row>
+          <Col md={8}>
+            <div className='task-comments'>
+              <div className='comments-body'>
+                <h3>Comments</h3>
+                <div className='comments-intro'>
+                  <div className='image'></div>
+                  <span>it's time to start commenting</span>
+                  <div ref={editor}></div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     </>
   ) : null;
