@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchTask, changeTaskRequest } from '../redux/actions';
 import Loader from '../components/Loader';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
 import { Row, Col, Button, Accordion, Card } from 'react-bootstrap';
 import Timer from './Timer';
-import { createMarkup, msToTime } from '../utils';
+import { createMarkup, msToTime, unixToTime } from '../utils';
+import Comments from './Comments';
 const status = {
   ALL: {
     class: '',
@@ -47,7 +46,7 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
   const getSpentTime = (currenTime) => {
     localtime = currenTime;
   };
-  const [comment, handleComment] = useState('');
+
   const { id } = useParams();
   useEffect(() => {
     // load task from database
@@ -67,7 +66,7 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
   const hadleFinish = (e) => {
     changeTaskRequest({ ...task, STATUS: 'FINISHED', SPENT_TIME: localtime });
   };
-  console.log(comment);
+
   return task.TITLE ? (
     <>
       <div className='task'>
@@ -174,13 +173,15 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
                                 Created
                               </span>
                             </Col>
-                            <Col md={6}>{task.created}</Col>
+                            <Col md={6}>{unixToTime(task.created)}</Col>
                           </Row>
                           <Row>
                             <Col md={6}>
-                              <span className='badge badge-info'>Start</span>
+                              <span className='badge badge-info'>
+                                Last activity
+                              </span>
                             </Col>
-                            <Col md={6}>{task.START_TIME}</Col>
+                            <Col md={6}>{unixToTime(task.START_TIME, 1)}</Col>
                           </Row>
                           <Row>
                             <Col md={6}>
@@ -196,7 +197,7 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
                                 Deadline
                               </span>
                             </Col>
-                            <Col md={6}>{task.SPENT_TIME}</Col>
+                            <Col md={6}>{unixToTime(task.SPENT_TIME)}</Col>
                           </Row>
                         </div>
                       </Card.Body>
@@ -251,31 +252,7 @@ function Task({ task, loading, fetchTask, changeTaskRequest }) {
 
         <Row>
           <Col md={8}>
-            <div className='task-comments'>
-              <div className='comments-body'>
-                <h3>Comments</h3>
-                <div className='comments-intro'>
-                  <div className='image'></div>
-                  <span>it's time to start commenting</span>
-                  <Row>
-                    <Col md={11}>
-                      <CKEditor
-                        config={{ placeholder: "Send comment" }}
-                        data={comment}
-                        onChange={(e, editor) => {
-                          const data = editor.getData()
-                          handleComment(data)
-                        }}
-                        editor={BalloonEditor}></CKEditor>
-                    </Col>
-                    <Col md={1}>
-                      <button className="image-send"></button>
-                    </Col>
-                  </Row>
-
-                </div>
-              </div>
-            </div>
+            <Comments />
           </Col>
         </Row>
       </div>

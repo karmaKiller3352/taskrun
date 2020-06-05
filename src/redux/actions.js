@@ -19,9 +19,54 @@ import {
   HIDE_MODAL,
   SHOW_MODAL,
   SET_TASK,
+  REMOVE_COMMENT_REQUEST,
+  ADD_COMMENT_REQUEST,
+  CHANGE_COMMENT_REQUEST,
+  REQUEST_COMMENTS,
 } from './types';
 
 // REQUEST ACTIONS
+
+// - COMMENTS
+export function removeCommentRequest(id) {
+  return (dispatch) => {
+    dispatch({
+      type: REMOVE_COMMENT_REQUEST,
+      payload: id,
+    });
+  };
+}
+
+export function addCommentRequest(comment, parentId) {
+  return (dispatch) => {
+    dispatch({
+      type: ADD_COMMENT_REQUEST,
+      payload: {
+        PARENT_ID: parentId,
+        BODY: comment,
+      },
+    });
+  };
+}
+
+export function changeCommentRequest(comment) {
+  return (dispatch) => {
+    dispatch({
+      type: CHANGE_COMMENT_REQUEST,
+      payload: comment,
+    });
+  };
+}
+
+export function fetchComments(id) {
+  return (dispatch) => {
+    dispatch({
+      type: REQUEST_COMMENTS,
+      payload: id,
+    });
+  };
+}
+
 // - PROJECTS:
 export function removeProjectRequest(id) {
   return (dispatch) => {

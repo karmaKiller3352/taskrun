@@ -1,12 +1,16 @@
 // API REQUESTS
 import axios from 'axios';
 
-const PROJECTS_API =
-  'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/data/projects/';
+const API = {
+  PROJECTS_API:
+    'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/data/projects/',
+  TASKS_API:
+    'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/data/tasks/',
+  COMMENTS_API:
+    'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/data/comments/',
+};
 
-const TASKS_API =
-  'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/data/tasks/';
-
+const { PROJECTS_API, TASKS_API, COMMENTS_API } = API;
 // projects request
 export async function changeProject(project) {
   const { data } = await axios.put(PROJECTS_API.slice(0, -1), project);
@@ -50,14 +54,20 @@ export async function fetchTasks() {
   return data;
 }
 
-export async function addTask({ PROJECT, ...task }) {
+export async function addTask(task) {
   const { data } = await axios.post(TASKS_API.slice(0, -1), task);
   return data;
 }
 
-export async function getTasksByProp(prop, value) {
+export async function getDataByProp(prop, value, requestApi) {
   const { data } = await axios.get(
-    TASKS_API.slice(0, -1) + `?where=${prop}%3D%27${value}%27`
+    API[requestApi].slice(0, -1) + `?where=${prop}%3D%27${value}%27`
   );
+  return data;
+}
+
+// comments requests
+export async function addComment(comment) {
+  const { data } = await axios.post(COMMENTS_API.slice(0, -1), comment);
   return data;
 }

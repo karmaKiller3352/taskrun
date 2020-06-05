@@ -17,6 +17,10 @@ import {
   REQUEST_TASK,
   SET_TASK,
   CHANGE_TASK_REQUEST,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT,
+  REQUEST_COMMENTS,
+  FETCH_COMMENTS,
 } from './types';
 
 import {
@@ -29,13 +33,19 @@ import {
   addTask,
   fetchTask,
   changeTask,
-  getTasksByProp,
+  getDataByProp,
+  addComment,
 } from './api';
 
 export function* sagaWatcher() {
   yield takeEvery('*', (action) => {
     //console.log(action);
   });
+
+  // watch comments event
+  yield takeEvery(ADD_COMMENT_REQUEST, sagaAddComment);
+  yield takeEvery(REQUEST_COMMENTS, sagaFetchComments);
+
   // watch project's event
   yield takeEvery(ADD_PROJECT_REQUEST, sagaAddProject);
   yield takeEvery(CHANGE_PROJECT_REQUEST, sagaChangeProject);
@@ -105,7 +115,12 @@ function* sagaFetchProject(action) {
     const payload = yield call(fetchProject, action.payload);
 
     if (payload.objectId) {
-      const tasks = yield call(getTasksByProp, 'PROJECT_ID', payload.objectId);
+      const tasks = yield call(
+        getDataByProp,
+        'PROJECT_ID',
+        payload.objectId,
+        'TASKS_API'
+      );
       const TIMESPENT = tasks.reduce(
         (acc, { SPENT_TIME }) => acc + SPENT_TIME,
         0
@@ -161,5 +176,29 @@ function* sagaFetchTasks() {
   } catch (error) {
     console.log(error);
     yield put(hideLoader());
+  }
+}
+
+function* sagaAddComment({ payload }) {
+  try {
+    const comment = yield call(addComment, payload);
+    yield put({ type: ADD_COMMENT, payload: comment });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* sagaFetchComments({ payload }) {
+  try {
+    const tasks = yield call(
+      getDataByProp,
+      'PARENT_ID',
+      payload,
+      'COMMENTS_API'
+    );
+
+    yield put({ type: FETCH_COMMENTS, payload: tasks });
+  } catch (error) {
+    console.log(error);
   }
 }
