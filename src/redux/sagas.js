@@ -21,6 +21,10 @@ import {
   ADD_COMMENT,
   REQUEST_COMMENTS,
   FETCH_COMMENTS,
+  REMOVE_COMMENT_REQUEST,
+  REMOVE_COMMENT,
+  CHANGE_COMMENT_REQUEST,
+  SET_COMMENT,
 } from './types';
 
 import {
@@ -35,6 +39,8 @@ import {
   changeTask,
   getDataByProp,
   addComment,
+  removeComment,
+  changeComment,
 } from './api';
 
 export function* sagaWatcher() {
@@ -43,7 +49,9 @@ export function* sagaWatcher() {
   });
 
   // watch comments event
+  yield takeEvery(CHANGE_COMMENT_REQUEST, sagaChangeComment);
   yield takeEvery(ADD_COMMENT_REQUEST, sagaAddComment);
+  yield takeEvery(REMOVE_COMMENT_REQUEST, sagaRemoveComment);
   yield takeEvery(REQUEST_COMMENTS, sagaFetchComments);
 
   // watch project's event
@@ -198,6 +206,25 @@ function* sagaFetchComments({ payload }) {
     );
 
     yield put({ type: FETCH_COMMENTS, payload: tasks });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* sagaRemoveComment({ payload }) {
+  try {
+    yield call(removeComment, payload);
+    yield put({ type: REMOVE_COMMENT, payload: payload });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* sagaChangeComment(action) {
+  try {
+    const payload = yield call(changeComment, action.payload);
+    yield put({ type: REMOVE_COMMENT, payload: payload.objectId });
+    yield put({ type: SET_COMMENT, payload });
   } catch (error) {
     console.log(error);
   }

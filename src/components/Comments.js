@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
@@ -31,8 +31,10 @@ const Comments = React.memo(
     removeCommentRequest,
     changeCommentRequest,
   }) => {
-    const [comment, handleComment] = useState('');
-
+    const [mode, setMode] = useState('add');
+    const [comment, handleComment] = useState();
+    const [editingComment, setEditingComment] = useState();
+    const commentField = useRef();
     useEffect(() => {
       fetchComments(id);
     }, [fetchComments, id]);
@@ -82,10 +84,27 @@ const Comments = React.memo(
                   <Dropdown>
                     <Dropdown.Toggle className='comment-menu' />
                     <Dropdown.Menu>
-                      <Dropdown.Item className='ed' href='#'>
+                      <Dropdown.Item
+                        className='ed'
+                        href='#'
+                        onClick={() => {
+                          setMode('editing');
+
+                          handleComment(comment.BODY);
+                          setEditingComment(comment);
+                          setMode('edit');
+                          commentField.current.editor.sourceElement.focus();
+                        }}
+                      >
                         Edit
                       </Dropdown.Item>
-                      <Dropdown.Item className='rm' href='#'>
+                      <Dropdown.Item
+                        className='rm'
+                        href='#'
+                        onClick={() => {
+                          removeCommentRequest(comment.objectId);
+                        }}
+                      >
                         Remove
                       </Dropdown.Item>
                     </Dropdown.Menu>
@@ -110,11 +129,18 @@ const Comments = React.memo(
               <Col md={1}></Col>
               <Col md={10}>
                 <CKEditor
+                  ref={commentField}
                   config={{ placeholder: 'Send comment' }}
                   data={comment}
                   onChange={(e, editor) => {
                     const data = editor.getData();
                     handleComment(data);
+                    if (mode === 'edit') {
+                      setEditingComment((prevValue) => ({
+                        ...prevValue,
+                        BODY: data,
+                      }));
+                    }
                   }}
                   editor={BalloonEditor}
                 ></CKEditor>
@@ -123,7 +149,13 @@ const Comments = React.memo(
                 <button
                   className='image-send'
                   onClick={() => {
-                    addCommentRequest(comment, id);
+                    if (mode === 'edit') {
+                      changeCommentRequest(editingComment);
+                    }
+                    if (mode === 'add') {
+                      addCommentRequest(comment, id);
+                    }
+                    setMode('add');
                     handleComment('');
                   }}
                 ></button>

@@ -24,7 +24,7 @@ function ProjectForm({ addProjectRequest }) {
     addProjectRequest(currentFields);
     formref.current.reset();
   };
-  console.log(1);
+
   return (
     <Form
       ref={formref}

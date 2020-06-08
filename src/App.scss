@@ -176,9 +176,17 @@
 * {
   box-sizing: border-box !important;
 }
+
 .project-form {
   border: 1px solid rgba(0, 0, 0, 0.125);
   padding: 20px;
+
+  .ck-content {
+    min-height: 100px !important;
+    border-radius: 0.25rem !important;
+    border: 1px solid #ced4da !important;
+    background-color: #fff !important;
+  }
 }
 .nav-link.active {
   background-image: linear-gradient(#101112, #17191b 40%, #1b1e20);
@@ -189,9 +197,11 @@
 .assecc {
   white-space: pre-line;
 }
+
 .modal-body {
   .ck-content {
     background-color: #fff;
+    border-radius: 0.25rem;
     * {
       color: #52575c;
     }
@@ -201,6 +211,7 @@
     }
   }
 }
+
 .ck-body-wrapper {
   z-index: 2000 !important;
 }

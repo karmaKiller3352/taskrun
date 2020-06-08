@@ -71,3 +71,13 @@ export async function addComment(comment) {
   const { data } = await axios.post(COMMENTS_API.slice(0, -1), comment);
   return data;
 }
+
+export async function removeComment(id) {
+  const { data } = await axios.delete(COMMENTS_API + id);
+  return data;
+}
+
+export async function changeComment(comment) {
+  const { data } = await axios.put(COMMENTS_API.slice(0, -1), comment);
+  return data;
+}
