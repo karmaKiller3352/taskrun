@@ -23,9 +23,28 @@ import {
   ADD_COMMENT_REQUEST,
   CHANGE_COMMENT_REQUEST,
   REQUEST_COMMENTS,
+  AUTHORIZE_USER_REQUEST,
+  LOGOUT_USER_REQUEST,
 } from './types';
 
 // REQUEST ACTIONS
+
+// - USER
+export function loginUserRequest(user) {
+  return (dispatch) => {
+    dispatch({
+      type: AUTHORIZE_USER_REQUEST,
+      payload: user,
+    });
+  };
+}
+export function logoutUserRequest(user) {
+  return (dispatch) => {
+    dispatch({
+      type: LOGOUT_USER_REQUEST,
+    });
+  };
+}
 
 // - COMMENTS
 export function removeCommentRequest(id) {

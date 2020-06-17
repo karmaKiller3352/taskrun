@@ -1,5 +1,8 @@
+import axios from 'axios';
+import cookie from 'js-cookie';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { showLoader, hideLoader, hideEditForm, hideModal } from './actions';
+
 import {
   FETCH_PROJECTS,
   REQUEST_PROJECTS,
@@ -25,6 +28,10 @@ import {
   REMOVE_COMMENT,
   CHANGE_COMMENT_REQUEST,
   SET_COMMENT,
+  AUTHORIZE_USER_REQUEST,
+  AUTHORIZE_USER,
+  LOGOUT_USER_REQUEST,
+  LOGOUT_USER,
 } from './types';
 
 import {
@@ -41,12 +48,18 @@ import {
   addComment,
   removeComment,
   changeComment,
+  loginUser,
+  logoutUser,
 } from './api';
 
 export function* sagaWatcher() {
   yield takeEvery('*', (action) => {
     //console.log(action);
   });
+
+  // watch user event
+  yield takeEvery(AUTHORIZE_USER_REQUEST, sagaLoginUser);
+  yield takeEvery(LOGOUT_USER_REQUEST, sagaLogoutUser);
 
   // watch comments event
   yield takeEvery(CHANGE_COMMENT_REQUEST, sagaChangeComment);
@@ -66,6 +79,34 @@ export function* sagaWatcher() {
   yield takeEvery(REQUEST_TASK, sagaFetchTask);
   yield takeEvery(ADD_TASK_REQUEST, sagaAddTask);
   yield takeEvery(CHANGE_TASK_REQUEST, sagaChangeTask);
+}
+
+function* sagaLogoutUser() {
+  try {
+    yield put(showLoader());
+    yield call(logoutUser);
+    yield put({ type: LOGOUT_USER });
+    cookie.remove('TR_userName');
+    cookie.remove('TR_token');
+    yield put(hideLoader());
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* sagaLoginUser(action) {
+  try {
+    const payload = yield call(loginUser, action.payload);
+    yield put({ type: AUTHORIZE_USER, payload });
+    cookie.set('TR_userName', payload.name, { expires: 1, sameSite: 'lax' });
+    cookie.set('TR_token', payload['user-token'], {
+      expires: 1,
+      sameSite: 'lax',
+    });
+    axios.defaults.headers.common['user-token'] = payload['user-token'];
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function* sagaChangeTask(action) {

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Logout from './Logout';
 export default function () {
-  return (
+  const isAuth = useSelector((state) => state.user.isAuth);
+  return isAuth ? (
     <Navbar className='navbar-dark bg-primary' expand='lg'>
       <Container>
         <NavLink className='navbar-brand' to={'/'}>
@@ -22,7 +25,8 @@ export default function () {
             </NavLink>
           </Nav>
         </Navbar.Collapse>
+        {isAuth ? <Logout /> : null}
       </Container>
     </Navbar>
-  );
+  ) : null;
 }

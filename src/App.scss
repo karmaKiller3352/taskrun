@@ -2,6 +2,38 @@
 @import './themes/variables';
 @import 'images.scss';
 
+/* AuthForm Component */
+.auth-form {
+  max-width: 380px;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  box-shadow: 0 0px 1px 2px #ccc;
+  .form-group {
+    margin-bottom: 30px;
+  }
+  .auth {
+    &.navbar-brand {
+      display: block;
+      margin-bottom: 10px;
+      line-height: 1;
+      padding: 10px;
+      font-size: 20px;
+      letter-spacing: 3px;
+      color: #fff;
+    }
+  }
+}
+/* fullwidth-wrapper*/
+.fullwidth-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* comments component */
 .comments {
   > p {

@@ -10,6 +10,8 @@ import ProjectPage from './pages/ProjectPage';
 import TasksPage from './pages/TasksPage';
 import AppModal from './components/AppModal';
 import TaskPage from './pages/TaskPage';
+import Login from './pages/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   const baseHref = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : '/';
   return (
@@ -17,12 +19,12 @@ function App() {
       <Navbar />
       <Container className='pt-3'>
         <Switch>
-          <Route exact path={'/'} component={HomePage} />
-          <Route path={'/projects/:id'} component={ProjectPage} />
-          <Route path={'/projects/'} component={ProjectsPage} />
-          <Route path={'/tasks/:id'} component={TaskPage} />
-          <Route path={'/tasks/'} component={TasksPage} />
-
+          <ProtectedRoute exact path={'/'} component={HomePage} />
+          <ProtectedRoute path={'/projects/:id'} component={ProjectPage} />
+          <ProtectedRoute path={'/projects/'} component={ProjectsPage} />
+          <ProtectedRoute path={'/tasks/:id'} component={TaskPage} />
+          <ProtectedRoute path={'/tasks/'} component={TasksPage} />
+          <Route exact path={'/login/'} component={Login} />
           <Route component={NoMatchPage} />
         </Switch>
       </Container>

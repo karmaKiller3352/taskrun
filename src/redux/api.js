@@ -1,5 +1,8 @@
 // API REQUESTS
 import axios from 'axios';
+import cookie from 'js-cookie';
+const token = cookie.get('TR_token') ? cookie.get('TR_token') : null;
+axios.defaults.headers.common['user-token'] = `${token}`;
 
 const API = {
   PROJECTS_API:
@@ -8,9 +11,11 @@ const API = {
     'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/data/tasks/',
   COMMENTS_API:
     'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/data/comments/',
+  USER_API:
+    'https://api.backendless.com/31AC8A7E-3AEA-1033-FF0E-4F94208FE800/66AAD1E3-F373-4750-96BA-D445FA4C046E/users/',
 };
 
-const { PROJECTS_API, TASKS_API, COMMENTS_API } = API;
+const { PROJECTS_API, TASKS_API, COMMENTS_API, USER_API } = API;
 // projects request
 export async function changeProject(project) {
   const { data } = await axios.put(PROJECTS_API.slice(0, -1), project);
@@ -79,5 +84,16 @@ export async function removeComment(id) {
 
 export async function changeComment(comment) {
   const { data } = await axios.put(COMMENTS_API.slice(0, -1), comment);
+  return data;
+}
+
+// user requests
+export async function loginUser(formData) {
+  const { data } = await axios.post(USER_API + 'login', formData);
+  return data;
+}
+
+export async function logoutUser() {
+  const { data } = await axios.get(USER_API + 'logout');
   return data;
 }
